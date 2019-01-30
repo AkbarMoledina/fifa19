@@ -8,9 +8,6 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-#with open('data.csv', 'rb') as f:
- #   reader = uc.DictReader(f)
-  #  data = list(reader)
 
 data = pd.read_csv('data.csv')
 top25_data = data.head(25)
@@ -29,11 +26,49 @@ plt.xticks(rotation='vertical')
 plt.ylim(88, 95)
 plt.show()
 
-gk = top25_data[top25_data.Position == 'GK']
-cb = top25_data[(top25_data.Position == 'CB') | (top25_data.Position == 'LCB') | (top25_data.Position == 'RCB')]
-fb = top25_data[(top25_data.Position == 'RB') | (top25_data.Position == 'LB')]
-cm = top25_data[(top25_data.Position == 'CM') | (top25_data.Position == 'RCM') | (top25_data.Position == 'LCM') | (top25_data.Position == 'CDM') | (top25_data.Position == 'CAM') | (top25_data.Position == 'RDM') | (top25_data.Position == 'LDM')]
-wf = top25_data[(top25_data.Position == 'RW') | (top25_data.Position == 'LW') | (top25_data.Position == 'RF') | (top25_data.Position == 'LF')]
-st = top25_data[(top25_data.Position == 'ST') | (top25_data.Position == 'RS') | (top25_data.Position == 'LS')]
+columns_to_drop = ['ID', 'Age', 'Photo', 'Nationality', 'Flag', 'Overall', 'Potential', 'Club', 
+                   'Club Logo', 'Value', 'Wage', 'Special', 'Preferred Foot',
+                   'International Reputation', 'Weak Foot', 'Skill Moves', 'Work Rate', 'Body Type', 'Real Face', 
+                   'Jersey Number', 'Joined', 'Loaned From', 
+                   'Contract Valid Until', 'Height', 'Weight', 'Release Clause',
+                   'LS', 'ST', 'RS', 'LW', 'LF', 'CF', 'RF', 'RW', 'LAM', 
+                   'CAM', 'RAM', 'LM', 'LCM', 'CM', 'RCM', 'RM', 'LWB', 'LDM',
+                   'CDM', 'RDM', 'RWB', 'LB', 'LCB', 'CB', 'RCB', 'RB']
+attributes = top25_data.drop(labels=columns_to_drop, axis=1)
+
+gk = attributes[attributes.Position == 'GK'].drop(labels='Position', axis=1)
+cb = attributes[(attributes.Position == 'CB') | (attributes.Position == 'LCB') | (attributes.Position == 'RCB')].drop(labels='Position', axis=1)
+fb = attributes[(attributes.Position == 'RB') | (attributes.Position == 'LB')].drop(labels='Position', axis=1)
+cm = attributes[(attributes.Position == 'CM') | (attributes.Position == 'RCM') | (attributes.Position == 'LCM') | (attributes.Position == 'CDM') | (attributes.Position == 'CAM') | (attributes.Position == 'RDM') | (attributes.Position == 'LDM')].drop(labels='Position', axis=1)
+wf = attributes[(attributes.Position == 'RW') | (attributes.Position == 'LW') | (attributes.Position == 'RF') | (attributes.Position == 'LF')].drop(labels='Position', axis=1)
+st = attributes[(attributes.Position == 'ST') | (attributes.Position == 'RS') | (attributes.Position == 'LS')].drop(labels='Position', axis=1)
 
 total = len(gk) + len(cb) + len(fb) + len(cm) + len(wf) + len(st)
+
+
+def get_best_stats(data, threshold=85):
+    all_stats = data.max().drop(labels='Name')
+    best_columns = ['Name'] + list(all_stats[all_stats >= threshold].index)
+    best_stats = data[best_columns]
+    return best_stats
+
+
+gk_best_stats = get_best_stats(gk)
+print(gk_best_stats)
+print(gk_best_stats.mean().round(1))
+
+cb_best_stats = get_best_stats(cb)
+print(cb_best_stats)
+print(cb_best_stats.mean().round(1))
+
+cm_best_stats = get_best_stats(cm)
+print(cm_best_stats)
+print(cm_best_stats.mean().round(1))
+
+wf_best_stats = get_best_stats(wf)
+print(wf_best_stats)
+print(wf_best_stats.mean().round(1))
+
+st_best_stats = get_best_stats(st)
+print(st_best_stats)
+print(st_best_stats.mean().round(1))
