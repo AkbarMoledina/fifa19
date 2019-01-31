@@ -26,6 +26,17 @@ plt.xticks(rotation='vertical')
 plt.ylim(88, 95)
 plt.show()
 
+plt.xlabel('Age')
+plt.ylabel('Number of Players')
+ax = plt.hist(top25_data['Age'], bins=10)
+plt.show()
+
+print('27 year old players:')
+print(top25_data['Name'][top25_data['Age'] == 27], '\n')
+print('33 year old players:')
+print(top25_data['Name'][top25_data['Age'] == 32], '\n')
+
+
 columns_to_drop = ['ID', 'Age', 'Photo', 'Nationality', 'Flag', 'Overall', 'Potential', 'Club', 
                    'Club Logo', 'Value', 'Wage', 'Special', 'Preferred Foot',
                    'International Reputation', 'Weak Foot', 'Skill Moves', 'Work Rate', 'Body Type', 'Real Face', 
