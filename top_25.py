@@ -11,6 +11,7 @@ from matplotlib import pyplot as plt
 
 data = pd.read_csv('data.csv')
 top25_data = data.head(25)
+top25_data.describe()
 
 print('The top 25 players in Fifa 19 are:')
 print(top25_data['Name'])
