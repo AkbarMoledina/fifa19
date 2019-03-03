@@ -34,7 +34,7 @@ plt.show()
 
 print('27 year old players:')
 print(top25_data['Name'][top25_data['Age'] == 27], '\n')
-print('33 year old players:')
+print('32 year old players:')
 print(top25_data['Name'][top25_data['Age'] == 32], '\n')
 
 
